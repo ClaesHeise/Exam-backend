@@ -8,6 +8,7 @@ import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -31,6 +32,13 @@ public class UserResource {
 
     @Context
     SecurityContext securityContext;
+
+    @GET
+    @Path("all")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllUsers() throws EntityNotFoundException {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllUsers())).build();
+    }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)

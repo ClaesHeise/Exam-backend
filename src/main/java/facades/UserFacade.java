@@ -5,7 +5,12 @@ import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+
 import security.errorhandling.AuthenticationException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -64,6 +69,19 @@ public class UserFacade {
             em.close();
         }
         return new UserDTO(user);
+    }
+
+    //Read all users
+    public List<UserDTO> getAllUsers() {
+        EntityManager em = getEntityManager();
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u", User.class);
+        List<User> users = query.getResultList();
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User u : users){
+            userDTOS.add(new UserDTO(u));
+        }
+        em.close();
+        return userDTOS;
     }
 
     //Read User Entity
