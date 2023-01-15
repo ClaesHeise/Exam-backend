@@ -45,4 +45,11 @@ public class UserDTO {
     public void setRole(List<String> role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

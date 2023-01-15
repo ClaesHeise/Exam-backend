@@ -34,10 +34,16 @@ public class UserResource {
     SecurityContext securityContext;
 
     @GET
-    @Path("all")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllUsers() throws EntityNotFoundException {
-        return Response.ok().entity(GSON.toJson(FACADE.getAllUsers())).build();
+    @Path("all/{rolename}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUsers(@PathParam("rolename") String roleName) throws API_Exception{
+        List<UserDTO> users;
+        try {
+            users = FACADE.getAllUsers(roleName);
+        } catch (Exception exception) {
+            throw new API_Exception("Something went wrong", 500, exception);
+        }
+        return Response.ok().entity(GSON.toJson(users)).build();
     }
 
     @PUT

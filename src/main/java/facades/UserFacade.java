@@ -72,9 +72,10 @@ public class UserFacade {
     }
 
     //Read all users
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAllUsers(String roleName) {
         EntityManager em = getEntityManager();
-        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u", User.class);
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u JOIN u.roleList rl WHERE rl.roleName = :rolename", User.class)
+                .setParameter("rolename", roleName);
         List<User> users = query.getResultList();
         List<UserDTO> userDTOS = new ArrayList<>();
         for(User u : users){
