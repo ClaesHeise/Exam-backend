@@ -29,11 +29,8 @@ public class Match {
     @Column(name = "inDoors")
     private boolean inDoors;
 
-    @JoinTable(name = "user_matches", joinColumns = {
-            @JoinColumn(name = "match_id", referencedColumnName = "id")}, inverseJoinColumns = {
-            @JoinColumn(name = "user_name", referencedColumnName = "user_name")})
-    @ManyToMany
-    private List<User> userList = new ArrayList<>();
+    @ManyToMany(mappedBy = "matchList")
+    private List<User> userList;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
@@ -132,10 +129,12 @@ public class Match {
         }
     }
 
-    public void addUser(User user){
-        user.setStatus(true);
-        userList.add(user);
-    }
+//    public void addUser(User user){
+//        System.out.println("Hello");
+//        user.setStatus(true);
+//        System.out.println(user.toString());
+//        userList.add(user);
+//    }
 
     @Override
     public String toString() {

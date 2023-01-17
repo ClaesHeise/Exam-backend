@@ -37,12 +37,18 @@ public class MatchFacade {
 
     public MatchDTO createMatch(MatchDTO matchDTO){
         EntityManager em = getEntityManager();
-        Match match = new Match(matchDTO.getId(), matchDTO.getOpponentTeam(), matchDTO.getJudge(), matchDTO.getType(), matchDTO.isInDoors());
+        Match match = new Match(matchDTO.getOpponentTeam(), matchDTO.getJudge(), matchDTO.getType(), matchDTO.isInDoors());
         try {
             if(matchDTO.getUsers() != null){
+//                System.out.println(matchDTO.getUsers().get(0).toString());
+//                TypedQuery<User> query =  em.createQuery("SELECT u FROM User u JOIN u.matchList ml WHERE ml.id = :id", User.class)
+//                        .setParameter("id", match.getId());
+//                List<User> users = query.getResultList();
+//                System.out.println(users.get(0).toString());
                 for(UserDTO u : matchDTO.getUsers()){
                     User user = em.find(User.class, u.getId());
-                    match.addUser(user);
+                    user.addMatch(match);
+//                    match.addUser(user);
                 }
             }
             if(matchDTO.getLocation() != null){

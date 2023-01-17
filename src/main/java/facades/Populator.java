@@ -55,29 +55,44 @@ public class Populator {
         // // Adding players
         User player1 = new User("John", "john123", "12345678", "john@gmail.com");
         player1.addRole(role2);
-        uf.createUser(new UserDTO(player1));
+        System.out.println(player1.getUserName()+" : "+player1.getUserPass());
 
         User player2 = new User("Mia", "mia123", "87654321", "mia@gmail.com");
         player2.addRole(role2);
+
+        uf.createUser(new UserDTO(player1));
         uf.createUser(new UserDTO(player2));
+
 
         // Adds the matches
         LocationDTO locationDTO3 = lf.getLocationById(1L);
         LocationDTO locationDTO4 = lf.getLocationById(2L);
-        UserDTO user1 = uf.findUserFromId(3L);
-        UserDTO user2 = uf.findUserFromId(4L);
+//        UserDTO user1 = uf.findUserFromId(3L);
+//        UserDTO user2 = uf.findUserFromId(4L);
 
-        Match match1 = new Match(1L, "Hvidovre Boldklub vs. Roskilde boldklub", "Lene Kristensen", "Turnering", false);
-        match1.assingLocation(new Location(locationDTO3.getId(), locationDTO3.getAddress(), locationDTO3.getCity()));
-        User userRepeat = new User(user1.getId(), user1.getUsername(), user1.getPassword(), user1.getPhone(), user1.getEmail());
-        match1.addUser(userRepeat);
-        mf.createMatch(new MatchDTO(match1));
+//        Match match1 = new Match(1L, "Hvidovre Boldklub vs. Roskilde boldklub", "Lene Kristensen", "Turnering", false);
+//        match1.assingLocation(new Location(locationDTO3.getId(), locationDTO3.getAddress(), locationDTO3.getCity()));
+////        User userRepeat = new User(user1.getId(), user1.getUsername(), user1.getPassword(), user1.getPhone(), user1.getEmail());
+//        match1.addUser(player1);
+//        mf.createMatch(new MatchDTO(match1));
+        List<UserDTO> users1 = new ArrayList<>();
+        users1.add(uf.findUserFromName("John"));
+        MatchDTO matchDTO = new MatchDTO("Hvidovre Boldklub vs. Roskilde boldklub", "Lene Kristensen", "Turnering", false, users1, locationDTO3);
 
-        Match match2 = new Match(2L, "Handelstandens boldklub vs. Heimdal", "Jan Stum", "Venskabskamp", true);
-        match2.assingLocation(new Location(locationDTO4.getId(), locationDTO4.getAddress(), locationDTO4.getCity()));
-        match2.addUser(new User(user2.getId(), user2.getUsername(), user2.getPassword(), user2.getPhone(), user2.getEmail()));
-        match2.addUser(userRepeat);
-        mf.createMatch(new MatchDTO(match2));
+        List<UserDTO> users2 = new ArrayList<>();
+        users2.add(uf.findUserFromName("John"));
+        users2.add(uf.findUserFromName("Mia"));
+        MatchDTO matchDTO2 = new MatchDTO("Handelstandens boldklub vs. Heimdal", "Jan Stum", "Venskabskamp", true, users2, locationDTO4);
+
+        mf.createMatch(matchDTO);
+        mf.createMatch(matchDTO2);
+//        Match match2 = new Match(2L, "Handelstandens boldklub vs. Heimdal", "Jan Stum", "Venskabskamp", true);
+//        match2.assingLocation(new Location(locationDTO4.getId(), locationDTO4.getAddress(), locationDTO4.getCity()));
+////        match2.addUser(new User(user2.getId(), user2.getUsername(), user2.getPassword(), user2.getPhone(), user2.getEmail()));
+//        match2.addUser(player2);
+//        System.out.println(userRepeat.getUserPass());
+
+//        mf.createMatch(new MatchDTO(match2));
 
     }
     

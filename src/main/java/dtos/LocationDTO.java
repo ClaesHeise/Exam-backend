@@ -16,18 +16,14 @@ public class LocationDTO {
     private Boolean condition;
     private List<MatchDTO> matches;
 
-    public LocationDTO(Long id, String address, String city, boolean condition) {
-        this.id = id;
+    public LocationDTO(String address, String city) {
         this.address = address;
         this.city = city;
-        this.condition = condition;
     }
 
-    public LocationDTO(Long id, String address, String city, boolean condition, List<MatchDTO> matches) {
-        this.id = id;
+    public LocationDTO(Long id, String address, String city, List<MatchDTO> matches) {
         this.address = address;
         this.city = city;
-        this.condition = condition;
         this.matches = matches;
     }
 

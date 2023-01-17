@@ -105,6 +105,14 @@ public class UserFacade {
         em.close();
         return new UserDTO(user);
     }
+    public User returnPureUser(String name ) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
+                .setParameter("name", name);
+        User user = query.getSingleResult();
+        em.close();
+        return user;
+    }
 
     //Update User Entity
     public UserDTO updateUserPassword(String username, String password)  {

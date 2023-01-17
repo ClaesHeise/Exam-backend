@@ -19,6 +19,19 @@ public class MatchDTO {
 
     private LocationDTO location;
 
+    public MatchDTO(String opponentTeam, String judge, String type, boolean inDoors, List<UserDTO> users, LocationDTO location) {
+        this.opponentTeam = opponentTeam;
+        this.judge = judge;
+        this.type = type;
+        this.inDoors = inDoors;
+        if(users != null) {
+            this.users = users;
+        }
+        if(location != null) {
+            this.location = location;
+        }
+    }
+
     public MatchDTO(Long id, String opponentTeam, String judge, String type, boolean inDoors, List<UserDTO> users, LocationDTO location) {
         this.id = id;
         this.opponentTeam = opponentTeam;
@@ -46,7 +59,6 @@ public class MatchDTO {
                     this.users.add(new UserDTO(u));
                 }
             }
-            System.out.println(match.getLocation().getId());
             if(match.getLocation() != null) {
                 this.location = new LocationDTO(match.getLocation());
             }

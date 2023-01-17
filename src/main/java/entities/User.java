@@ -42,8 +42,11 @@ public class User implements Serializable {
   @ManyToMany
   private List<Role> roleList = new ArrayList<>();
 
-  @ManyToMany(mappedBy = "userList")
-  private List<Match> matchList;
+  @JoinTable(name = "user_matches", joinColumns = {
+          @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+          @JoinColumn(name = "match_id", referencedColumnName = "id")})
+  @ManyToMany
+  private List<Match> matchList = new ArrayList<>();
 
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
@@ -69,7 +72,12 @@ public class User implements Serializable {
   // Encrypts password with Bcrypt and a personal salt
   public User(String userName, String userPass, String phone, String email) {
     this.userName = userName;
-    this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    if(userPass.charAt(0) != '$'){
+      this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    }
+    else {
+      this.userPass = userPass;
+    }
     this.phone = phone;
     this.email = email;
     stat();
@@ -155,6 +163,11 @@ public class User implements Serializable {
     this.matchList = matchList;
   }
 
+  public void addMatch(Match match){
+    this.status = true;
+    matchList.add(match);
+    System.out.println(this.userName+" : "+this.userPass);
+  }
   @Override
   public String toString() {
     return "User{" +
