@@ -69,9 +69,9 @@ class UserEndpointTest {
             em.createQuery("delete from Role").executeUpdate();
             Role role1 = new Role("admin");
             Role role2 = new Role("user");
-            User user1 = new User("admin1", "test1");
-            User user2 = new User("admin2", "test2");
-            User user3 = new User("user1", "test3");
+            User user1 = new User("admin1", "test1", "12345678", "admin1@gmail.com");
+            User user2 = new User("admin2", "test2", "12345678", "admin2@gmail.com");
+            User user3 = new User("user1", "test3", "12345678", "user1@gmail.com");
             user1.addRole(role1);
             user2.addRole(role1);
             user3.addRole(role2);
@@ -122,7 +122,8 @@ class UserEndpointTest {
         given()
                 .contentType("application/json")
                 .header("x-access-token", securityToken)
-                .body("{\"name\": testUser,\n\"password\": testing,\n\"roles\": ['admin']}")
+                .body("{\"name\": testUser,\n\"password\": testing" +
+                        ",\n\"phone\": 12345678,\n\"email\": testUser@gmail.com,\n\"roles\": ['admin']}")
                 .when().post("/user")
                 .then()
                 .statusCode(200)

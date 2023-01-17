@@ -3,14 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.mindrot.jbcrypt.BCrypt;
@@ -20,9 +13,11 @@ import org.mindrot.jbcrypt.BCrypt;
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   @Id
-  @Basic(optional = false)
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   @Column(name = "user_name", length = 25)
   private String userName;
   @Basic(optional = false)
@@ -30,11 +25,25 @@ public class User implements Serializable {
   @Size(min = 1, max = 255)
   @Column(name = "user_pass")
   private String userPass;
+
+  //Phone, Email, Status
+  @Column(name = "phone")
+  private String phone;
+
+  @Column(name = "email")
+  private String email;
+
+  @Column(name = "status")
+  private boolean status;
+
   @JoinTable(name = "user_roles", joinColumns = {
     @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
     @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
   @ManyToMany
   private List<Role> roleList = new ArrayList<>();
+
+  @ManyToMany(mappedBy = "userList")
+  private List<Match> matchList;
 
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
@@ -47,13 +56,32 @@ public class User implements Serializable {
     return rolesAsStrings;
   }
 
+  private void stat(){
+    if(matchList != null && matchList.size() > 0){
+      this.status = true;
+    } else {
+      this.status = false;
+    }
+  }
+
   public User() {}
 
   // Encrypts password with Bcrypt and a personal salt
-  public User(String userName, String userPass) {
+  public User(String userName, String userPass, String phone, String email) {
     this.userName = userName;
-
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    this.phone = phone;
+    this.email = email;
+    stat();
+  }
+
+  public User(Long id, String userName, String userPass, String phone, String email) {
+    this.id = id;
+    this.userName = userName;
+    this.userPass = userPass;
+    this.phone = phone;
+    this.email = email;
+    stat();
   }
 
   // Decrypts and checks given password against database/entity password, using B-crypt
@@ -91,4 +119,52 @@ public class User implements Serializable {
     roleList.add(userRole);
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public boolean isStatus() {
+    return status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
+
+  public List<Match> getMatchList() {
+    return matchList;
+  }
+
+  public void setMatchList(List<Match> matchList) {
+    this.matchList = matchList;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", userName='" + userName + '\'' +
+            ", userPass='" + userPass + '\'' +
+            ", phone='" + phone + '\'' +
+            ", email='" + email + '\'' +
+            ", status=" + status +
+            ", roleList=" + roleList +
+            '}';
+  }
 }

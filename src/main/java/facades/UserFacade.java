@@ -1,6 +1,8 @@
 package facades;
 
+import dtos.MatchDTO;
 import dtos.UserDTO;
+import entities.Match;
 import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
@@ -44,7 +46,9 @@ public class UserFacade {
         EntityManager em = emf.createEntityManager();
         User user;
         try {
-            user = em.find(User.class, username);
+            TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class)
+                    .setParameter("username", username);
+            user = query.getSingleResult();
             if (user == null || !user.verifyPassword(password)) {
                 throw new AuthenticationException("Invalid user name or password");
             }
@@ -56,7 +60,7 @@ public class UserFacade {
     //Create User entity
     public UserDTO createUser(UserDTO userDTO){
         EntityManager em = getEntityManager();
-        User user = new User(userDTO.getUsername(), userDTO.getPassword());
+        User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getPhone(), userDTO.getEmail());
         try {
             for(String s : userDTO.getRole()){
                 Role role = em.find(Role.class, s);
@@ -86,9 +90,18 @@ public class UserFacade {
     }
 
     //Read User Entity
-    public UserDTO findUserFromUsername(String username) {
+    public UserDTO findUserFromId(Long id) {
         EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, username);
+        User user = em.find(User.class, id);
+        em.close();
+        return new UserDTO(user);
+    }
+
+    public UserDTO findUserFromName(String name ) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
+                .setParameter("name", name);
+        User user = query.getSingleResult();
         em.close();
         return new UserDTO(user);
     }
@@ -96,7 +109,9 @@ public class UserFacade {
     //Update User Entity
     public UserDTO updateUserPassword(String username, String password)  {
         EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, username);
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
+                .setParameter("name", username);
+        User user = query.getSingleResult();
         user.setUserPass(password);
         try{
             em.getTransaction().begin();
@@ -108,9 +123,12 @@ public class UserFacade {
     }
 
     // Delete User Entity
-    public UserDTO deleteUser(String username) {
+    public UserDTO deleteUser(String name) {
         EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, username);
+        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
+                .setParameter("name", name);
+        User user = query.getSingleResult();
+        System.out.println(user.toString());
         try {
             em.getTransaction().begin();
             em.remove(user);

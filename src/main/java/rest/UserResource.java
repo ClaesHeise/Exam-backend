@@ -55,7 +55,9 @@ public class UserResource {
         try {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             String userName = securityContext.getUserPrincipal().getName();
+            System.out.println(userName);
             String userPass = json.get("password").getAsString();
+            System.out.println(userPass);
             userDTO = FACADE.updateUserPassword(userName, userPass);
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied",400,e);
@@ -73,12 +75,14 @@ public class UserResource {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             String userName = json.get("name").getAsString();
             String userPass = json.get("password").getAsString();
+            String phone = json.get("phone").getAsString();
+            String email = json.get("email").getAsString();
             List<String> roles = new ArrayList<>();
             JsonArray jsonArray = json.get("roles").getAsJsonArray();
             for(JsonElement ja : jsonArray){
                 roles.add(ja.getAsString());
             }
-            userDTO = new UserDTO(userName, userPass, roles);
+            userDTO = new UserDTO(userName, userPass, phone, email, roles);
             FACADE.createUser(userDTO);
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied",400,e);
@@ -107,7 +111,7 @@ public class UserResource {
     @RolesAllowed("admin")
     public Response getUser() {
         String username = securityContext.getUserPrincipal().getName();
-        UserDTO userDTO = FACADE.findUserFromUsername(username);
+        UserDTO userDTO = FACADE.findUserFromName(username);
         return Response.ok().entity(GSON.toJson(userDTO)).build();
     }
 }
