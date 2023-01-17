@@ -108,7 +108,7 @@ public class UserResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("verify")
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "player"})
     public Response getUser() {
         String username = securityContext.getUserPrincipal().getName();
         UserDTO userDTO = FACADE.findUserFromName(username);
