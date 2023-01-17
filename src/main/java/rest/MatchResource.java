@@ -37,7 +37,7 @@ public class MatchResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllMatchesPlayer() throws API_Exception {
+    public Response getAllMatches() throws API_Exception {
         List<MatchDTO> matches;
         try {
             matches = FACADE.getAllMatches();

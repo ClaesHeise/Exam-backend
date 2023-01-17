@@ -36,6 +36,19 @@ public class LocationResource {
     @Context
     SecurityContext securityContext;
 
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllLocations() throws API_Exception {
+        List<LocationDTO> locations;
+        try {
+            locations = FACADE.getAllLocations();
+        } catch (Exception exception) {
+            throw new API_Exception("Something went wrong", 500, exception);
+        }
+        return Response.ok().entity(GSON.toJson(locations)).build();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
