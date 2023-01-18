@@ -8,7 +8,6 @@ import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -23,10 +22,6 @@ public class UserResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
 
     private static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
-
-//    private static UserResource getUserFacade(EntityManagerFactory emf) {
-//        return null;
-//    }
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -65,6 +60,7 @@ public class UserResource {
         return Response.ok().entity(GSON.toJson(userDTO)).build();
     }
 
+    // User story 4 - add new: Match, User & Location
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -90,6 +86,7 @@ public class UserResource {
         return Response.ok().entity(GSON.toJson(userDTO)).build();
     }
 
+    // User story 7 - Delete a Player / User
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")

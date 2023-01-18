@@ -57,7 +57,8 @@ public class UserFacade {
         }
         return user;
     }
-    //Create User entity
+
+    // User story 4 - add new: Match, User & Location
     public UserDTO createUser(UserDTO userDTO){
         EntityManager em = getEntityManager();
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getPhone(), userDTO.getEmail());
@@ -89,14 +90,6 @@ public class UserFacade {
         return userDTOS;
     }
 
-    //Read User Entity
-    public UserDTO findUserFromId(Long id) {
-        EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, id);
-        em.close();
-        return new UserDTO(user);
-    }
-
     public UserDTO findUserFromName(String name ) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
@@ -104,14 +97,6 @@ public class UserFacade {
         User user = query.getSingleResult();
         em.close();
         return new UserDTO(user);
-    }
-    public User returnPureUser(String name ) {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)
-                .setParameter("name", name);
-        User user = query.getSingleResult();
-        em.close();
-        return user;
     }
 
     //Update User Entity
@@ -130,7 +115,7 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
-    // Delete User Entity
+    // User story 7 - Delete a Player / User
     public UserDTO deleteUser(String name) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<User> query =  em.createQuery("SELECT u FROM User u WHERE u.userName = :name", User.class)

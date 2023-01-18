@@ -25,15 +25,12 @@ public class MatchResource {
 
     private static final MatchFacade FACADE =  MatchFacade.getMatchFacade(EMF);
 
-//    private static UserResource getUserFacade(EntityManagerFactory emf) {
-//        return null;
-//    }
-
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
     SecurityContext securityContext;
 
+    // User story 1 - get all matches
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,6 +44,7 @@ public class MatchResource {
         return Response.ok().entity(GSON.toJson(matches)).build();
     }
 
+    // User story 2 - get all matches, as a player
     @GET
     @Path("all/player/{playername}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -61,6 +59,7 @@ public class MatchResource {
         return Response.ok().entity(GSON.toJson(matches)).build();
     }
 
+    // User story 3 - get all matches, on a specific location
     @GET
     @Path("all/location/{locationname}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -83,6 +82,7 @@ public class MatchResource {
         return Response.ok().entity(GSON.toJson(matchDTO)).build();
     }
 
+    // User story 4 - add new: Match, User & Location
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -103,6 +103,7 @@ public class MatchResource {
         return Response.ok().entity(GSON.toJson(matchDTO)).build();
     }
 
+    // User story 5 & 6 - Change match / Aswell as add relations between match and User + Location
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

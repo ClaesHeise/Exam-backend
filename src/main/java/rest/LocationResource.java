@@ -27,10 +27,6 @@ public class LocationResource {
 
     private static final LocationFacade FACADE =  LocationFacade.getLocationFacade(EMF);
 
-//    private static UserResource getUserFacade(EntityManagerFactory emf) {
-//        return null;
-//    }
-
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
@@ -49,6 +45,7 @@ public class LocationResource {
         return Response.ok().entity(GSON.toJson(locations)).build();
     }
 
+    // User story 4 - add new: Match, User & Location
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

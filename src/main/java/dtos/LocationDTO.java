@@ -21,12 +21,6 @@ public class LocationDTO {
         this.city = city;
     }
 
-    public LocationDTO(Long id, String address, String city, List<MatchDTO> matches) {
-        this.address = address;
-        this.city = city;
-        this.matches = matches;
-    }
-
     public LocationDTO(Location location) {
         if(location.getAddress() != null){
             this.id = location.getId();
@@ -48,32 +42,8 @@ public class LocationDTO {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public boolean getCondition() {
-        return condition;
-    }
-
-    public void setCondition(boolean condition) {
-        this.condition = condition;
-    }
-
-    public List<MatchDTO> getMatches() {
-        return matches;
-    }
-
-    public void setMatches(List<MatchDTO> matches) {
-        this.matches = matches;
     }
 
     @Override

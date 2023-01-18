@@ -1,20 +1,16 @@
 package facades;
 
-import dtos.LocationDTO;
 import dtos.MatchDTO;
 import dtos.UserDTO;
 import entities.Location;
 import entities.Match;
-import entities.Role;
 import entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MatchFacade {
     private static EntityManagerFactory emf;
@@ -35,20 +31,15 @@ public class MatchFacade {
         return instance;
     }
 
+    // User story 4 - add new: Match, User & Location
     public MatchDTO createMatch(MatchDTO matchDTO){
         EntityManager em = getEntityManager();
         Match match = new Match(matchDTO.getOpponentTeam(), matchDTO.getJudge(), matchDTO.getType(), matchDTO.isInDoors());
         try {
             if(matchDTO.getUsers() != null){
-//                System.out.println(matchDTO.getUsers().get(0).toString());
-//                TypedQuery<User> query =  em.createQuery("SELECT u FROM User u JOIN u.matchList ml WHERE ml.id = :id", User.class)
-//                        .setParameter("id", match.getId());
-//                List<User> users = query.getResultList();
-//                System.out.println(users.get(0).toString());
                 for(UserDTO u : matchDTO.getUsers()){
                     User user = em.find(User.class, u.getId());
                     user.addMatch(match);
-//                    match.addUser(user);
                 }
             }
             if(matchDTO.getLocation() != null){
@@ -71,10 +62,12 @@ public class MatchFacade {
         return new MatchDTO(match);
     }
 
+    // User story 1 - get all matches
     public List<MatchDTO> getAllMatches() {
         EntityManager em = getEntityManager();
         TypedQuery<Match> query =  em.createQuery("SELECT m FROM Match m", Match.class);
         List<Match> matches = query.getResultList();
+
         List<MatchDTO> matchDTOS = new ArrayList<>();
         for(Match m : matches){
             matchDTOS.add(new MatchDTO(m));
@@ -82,6 +75,8 @@ public class MatchFacade {
         em.close();
         return matchDTOS;
     }
+
+    // User story 2 - get all matches, as a player
     public List<MatchDTO> getAllMatchesForPlayer(String userName) {
         EntityManager em = getEntityManager();
         TypedQuery<Match> query =  em.createQuery("SELECT m FROM Match m JOIN m.userList ul WHERE ul.userName = :un", Match.class)
@@ -95,6 +90,7 @@ public class MatchFacade {
         return matchDTOS;
     }
 
+    // User story 3 - get all matches, on a specific location
     public List<MatchDTO> getAllMatchesForLocation(String locationName) {
         EntityManager em = getEntityManager();
         TypedQuery<Match> query =  em.createQuery("SELECT m FROM Match m JOIN m.location l WHERE l.address = :ln", Match.class)
@@ -108,6 +104,7 @@ public class MatchFacade {
         return matchDTOS;
     }
 
+    // User story 5 & 6 - Change match / Aswell as add relations between match and User + Location
     public MatchDTO updateMatch(MatchDTO matchDTO)  {
         EntityManager em = emf.createEntityManager();
         Match match = em.find(Match.class, matchDTO.getId());

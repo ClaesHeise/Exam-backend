@@ -1,11 +1,6 @@
 package entities;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,14 +34,6 @@ public class Match {
     public Match() {}
 
     public Match(String opponentTeam, String judge, String type, boolean inDoors) {
-        this.opponentTeam = opponentTeam;
-        this.judge = judge;
-        this.type = type;
-        this.inDoors = inDoors;
-    }
-
-    public Match(Long id, String opponentTeam, String judge, String type, boolean inDoors) {
-        this.id = id;
         this.opponentTeam = opponentTeam;
         this.judge = judge;
         this.type = type;
@@ -114,27 +101,6 @@ public class Match {
     public List<User> getUserList() {
         return userList;
     }
-
-    public void setUserList(List<User> userList) {
-        if(this.userList != null){
-            for(User u : userList){
-                u.getMatchList().remove(this);
-            }
-        }
-        this.userList = userList;
-        if(userList != null){
-            for(User u : userList){
-                u.getMatchList().add(this);
-            }
-        }
-    }
-
-//    public void addUser(User user){
-//        System.out.println("Hello");
-//        user.setStatus(true);
-//        System.out.println(user.toString());
-//        userList.add(user);
-//    }
 
     @Override
     public String toString() {

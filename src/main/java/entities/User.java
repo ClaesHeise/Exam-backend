@@ -102,10 +102,6 @@ public class User implements Serializable {
     return userName;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
   public String getUserPass() {
     return this.userPass;
   }
@@ -113,14 +109,6 @@ public class User implements Serializable {
   // Encrypts password with salt here
   public void setUserPass(String password) {
     this.userPass = BCrypt.hashpw(password, BCrypt.gensalt());
-  }
-
-  public List<Role> getRoleList() {
-    return roleList;
-  }
-
-  public void setRoleList(List<Role> roleList) {
-    this.roleList = roleList;
   }
 
   public void addRole(Role userRole) {
@@ -135,32 +123,8 @@ public class User implements Serializable {
     return phone;
   }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
   public String getEmail() {
     return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public boolean isStatus() {
-    return status;
-  }
-
-  public void setStatus(boolean status) {
-    this.status = status;
-  }
-
-  public List<Match> getMatchList() {
-    return matchList;
-  }
-
-  public void setMatchList(List<Match> matchList) {
-    this.matchList = matchList;
   }
 
   public void addMatch(Match match){

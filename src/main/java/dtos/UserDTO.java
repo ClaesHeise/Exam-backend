@@ -17,16 +17,6 @@ public class UserDTO {
     private List<String> role;
 
     private List<MatchDTO> match;
-    //Long id, String userName, String userPass, String phone, String email
-
-//    public UserDTO(String username, String password, String phone, String email, List<String> role, List<MatchDTO> match) {
-//        this.username = username;
-//        this.password = password;
-//        this.phone = phone;
-//        this.email = email;
-//        this.role = role;
-//        this.match = match;
-//    }
 
     public UserDTO(String username, String password, String phone, String email, List<String> role) {
         this.username = username;
@@ -83,16 +73,8 @@ public class UserDTO {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<MatchDTO> getMatch() {

@@ -67,14 +67,7 @@ public class Populator {
         // Adds the matches
         LocationDTO locationDTO3 = lf.getLocationById(1L);
         LocationDTO locationDTO4 = lf.getLocationById(2L);
-//        UserDTO user1 = uf.findUserFromId(3L);
-//        UserDTO user2 = uf.findUserFromId(4L);
 
-//        Match match1 = new Match(1L, "Hvidovre Boldklub vs. Roskilde boldklub", "Lene Kristensen", "Turnering", false);
-//        match1.assingLocation(new Location(locationDTO3.getId(), locationDTO3.getAddress(), locationDTO3.getCity()));
-////        User userRepeat = new User(user1.getId(), user1.getUsername(), user1.getPassword(), user1.getPhone(), user1.getEmail());
-//        match1.addUser(player1);
-//        mf.createMatch(new MatchDTO(match1));
         List<UserDTO> users1 = new ArrayList<>();
         users1.add(uf.findUserFromName("John"));
         MatchDTO matchDTO = new MatchDTO("Hvidovre Boldklub vs. Roskilde boldklub", "Lene Kristensen", "Turnering", false, users1, locationDTO3);
@@ -86,14 +79,6 @@ public class Populator {
 
         mf.createMatch(matchDTO);
         mf.createMatch(matchDTO2);
-//        Match match2 = new Match(2L, "Handelstandens boldklub vs. Heimdal", "Jan Stum", "Venskabskamp", true);
-//        match2.assingLocation(new Location(locationDTO4.getId(), locationDTO4.getAddress(), locationDTO4.getCity()));
-////        match2.addUser(new User(user2.getId(), user2.getUsername(), user2.getPassword(), user2.getPhone(), user2.getEmail()));
-//        match2.addUser(player2);
-//        System.out.println(userRepeat.getUserPass());
-
-//        mf.createMatch(new MatchDTO(match2));
-
     }
     
     public static void main(String[] args) {

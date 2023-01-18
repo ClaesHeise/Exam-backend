@@ -36,20 +36,6 @@ public class MatchDTO {
         }
     }
 
-    public MatchDTO(Long id, String opponentTeam, String judge, String type, boolean inDoors, List<UserDTO> users, LocationDTO location) {
-        this.id = id;
-        this.opponentTeam = opponentTeam;
-        this.judge = judge;
-        this.type = type;
-        this.inDoors = inDoors;
-        if(users != null) {
-            this.users = users;
-        }
-        if(location != null) {
-            this.location = location;
-        }
-    }
-
     public MatchDTO(Long id, String opponentTeam, String judge, String type, boolean inDoors, List<Long> userIds, Long locationId) {
         this.id = id;
         this.opponentTeam = opponentTeam;
@@ -91,16 +77,8 @@ public class MatchDTO {
         return opponentTeam;
     }
 
-    public void setOpponentTeam(String opponentTeam) {
-        this.opponentTeam = opponentTeam;
-    }
-
     public String getJudge() {
         return judge;
-    }
-
-    public void setJudge(String judge) {
-        this.judge = judge;
     }
 
     public String getType() {
@@ -115,40 +93,20 @@ public class MatchDTO {
         return inDoors;
     }
 
-    public void setInDoors(boolean inDoors) {
-        this.inDoors = inDoors;
-    }
-
     public List<UserDTO> getUsers() {
         return users;
-    }
-
-    public void setUsers(List<UserDTO> users) {
-        this.users = users;
     }
 
     public LocationDTO getLocation() {
         return location;
     }
 
-    public void setLocation(LocationDTO location) {
-        this.location = location;
-    }
-
     public List<Long> getUserIds() {
         return userIds;
     }
 
-    public void setUserIds(List<Long> userIds) {
-        this.userIds = userIds;
-    }
-
     public Long getLocationId() {
         return locationId;
-    }
-
-    public void setLocationId(Long locationId) {
-        this.locationId = locationId;
     }
 
     @Override

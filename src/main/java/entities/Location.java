@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,24 +41,6 @@ public class Location {
         this.condition = cond();
     }
 
-    public Location(Long id, String address, String city) {
-        this.id = id;
-        this.address = address;
-        this.city = city;
-        this.condition = cond();
-    }
-
-    public Location(Long id, String address, String city, Set<Match> matches) {
-        this.id = id;
-        this.address = address;
-        this.city = city;
-        this.matches = matches;
-        for(Match m : matches){
-            m.setLocation(this);
-        }
-        this.condition = cond();
-    }
-
     public Long getId() {
         return id;
     }
@@ -68,16 +49,8 @@ public class Location {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public boolean getCondition() {return condition;}
@@ -90,11 +63,4 @@ public class Location {
         return matches;
     }
 
-    public void setMatches(Set<Match> matches) {
-        this.matches = matches;
-        cond();
-        for(Match match : matches){
-            match.setLocation(this);
-        }
-    }
 }
