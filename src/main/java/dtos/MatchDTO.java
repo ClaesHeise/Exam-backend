@@ -17,7 +17,11 @@ public class MatchDTO {
     private boolean inDoors;
     private List<UserDTO> users;
 
+    private List<Long> userIds;
+
     private LocationDTO location;
+
+    private Long locationId;
 
     public MatchDTO(String opponentTeam, String judge, String type, boolean inDoors, List<UserDTO> users, LocationDTO location) {
         this.opponentTeam = opponentTeam;
@@ -44,6 +48,16 @@ public class MatchDTO {
         if(location != null) {
             this.location = location;
         }
+    }
+
+    public MatchDTO(Long id, String opponentTeam, String judge, String type, boolean inDoors, List<Long> userIds, Long locationId) {
+        this.id = id;
+        this.opponentTeam = opponentTeam;
+        this.judge = judge;
+        this.type = type;
+        this.inDoors = inDoors;
+        this.userIds = userIds;
+        this.locationId = locationId;
     }
 
     public MatchDTO(Match match) {
@@ -119,6 +133,22 @@ public class MatchDTO {
 
     public void setLocation(LocationDTO location) {
         this.location = location;
+    }
+
+    public List<Long> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 
     @Override

@@ -102,4 +102,30 @@ public class MatchResource {
         }
         return Response.ok().entity(GSON.toJson(matchDTO)).build();
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
+    public Response updateMatch(String jsonString) throws API_Exception {
+        MatchDTO matchDTO;
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            Long id = json.get("id").getAsLong();
+            String opponentTeam = json.get("opponentTeam").getAsString();
+            String judge = json.get("judge").getAsString();
+            String type = json.get("type").getAsString();
+            Boolean inDoors = json.get("inDoors").getAsBoolean();
+            List<Long> userIds = new ArrayList<>();
+            JsonArray jsonArray = json.get("users").getAsJsonArray();
+            for(JsonElement ja : jsonArray){
+                userIds.add(ja.getAsLong());
+            }
+            Long localtionId = json.get("location").getAsLong();
+            matchDTO = FACADE.updateMatch(new MatchDTO(id, opponentTeam, judge, type, inDoors, userIds, localtionId));
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(matchDTO)).build();
+    }
 }

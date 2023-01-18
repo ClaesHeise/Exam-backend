@@ -108,4 +108,30 @@ public class MatchFacade {
         return matchDTOS;
     }
 
+    public MatchDTO updateMatch(MatchDTO matchDTO)  {
+        EntityManager em = emf.createEntityManager();
+        Match match = em.find(Match.class, matchDTO.getId());
+        match.setOpponentTeam(matchDTO.getOpponentTeam());
+        match.setJudge(matchDTO.getJudge());
+        match.setType(matchDTO.getType());
+        match.setInDoors(matchDTO.isInDoors());
+        try{
+            if(matchDTO.getUserIds() != null){
+                for(Long l : matchDTO.getUserIds()){
+                    User user = em.find(User.class, l);
+                    user.addMatch(match);
+                }
+            }
+            if(matchDTO.getLocationId() != null){
+                Location location = em.find(Location.class, matchDTO.getLocationId());
+                match.assingLocation(location);
+            }
+            em.getTransaction().begin();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new MatchDTO(match);
+    }
+
 }
