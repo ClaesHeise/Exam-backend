@@ -74,6 +74,15 @@ public class MatchResource {
         return Response.ok().entity(GSON.toJson(matches)).build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    @RolesAllowed("admin")
+    public Response getMatch(@PathParam("id") Long id) {
+        MatchDTO matchDTO = FACADE.findMatchFromId(id);
+        return Response.ok().entity(GSON.toJson(matchDTO)).build();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

@@ -64,6 +64,13 @@ public class MatchFacade {
         return new MatchDTO(match);
     }
 
+    public MatchDTO findMatchFromId(Long id) {
+        EntityManager em = emf.createEntityManager();
+        Match match = em.find(Match.class, id);
+        em.close();
+        return new MatchDTO(match);
+    }
+
     public List<MatchDTO> getAllMatches() {
         EntityManager em = getEntityManager();
         TypedQuery<Match> query =  em.createQuery("SELECT m FROM Match m", Match.class);
